@@ -9,6 +9,7 @@
             --primary: #3498db;
             --dark: #2c3e50;
             --light: #ecf0f1;
+            --accent: #e67e22;
         }
 
         body {
@@ -27,10 +28,9 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- HEADER DYNAMIQUE --- */
         header {
             color: white;
-            padding: 6rem 2rem;
+            padding: 5rem 2rem;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             position: relative;
@@ -41,66 +41,39 @@
 
         .header-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(44, 62, 80, 0.4), rgba(44, 62, 80, 0.6)),
                         url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=80') center/cover no-repeat;
             z-index: 0;
             animation: kenBurns 20s ease infinite alternate;
         }
 
-        .float-element {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
-            animation: floating 6s ease-in-out infinite;
-        }
-
         @keyframes kenBurns {
-            0% { transform: scale(1) translateY(0); }
-            100% { transform: scale(1.15) translateY(-15px); }
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
 
-        @keyframes floating {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
-            50% { transform: translateY(-30px) rotate(15deg); opacity: 0.4; }
-        }
-
-        header > * {
-            position: relative;
-            z-index: 2;
-        }
-        /* ------------------------ */
+        header > * { position: relative; z-index: 2; }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .card {
-            /* Fond blanc très transparent */
             background: rgba(255, 255, 255, 0.4); 
             padding: 1.5rem;
-            border-radius: 12px; /* Un peu plus arrondi pour le style verre */
-            
-            /* L'effet de flou qui "capture" les couleurs du fond */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            
-            /* Une bordure légère pour définir la carte sur le fond clair */
+            border-radius: 15px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            
             box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
             transition: all 0.3s ease;
             display: flex;
@@ -109,71 +82,47 @@
         }
 
         .card:hover { 
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.6); /* Devient un peu plus opaque au survol */
-            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.15);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.6);
         }
-.card h3 {
-            margin-top: 0;
-            color: var(--dark); /* Ou var(--primary) */
-            border-bottom: 2px solid rgba(52, 152, 219, 0.2);
-            padding-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-        .card:hover { transform: translateY(-5px); }
 
         .card h3 {
             margin-top: 0;
-            color: var(--primary);
-            border-bottom: 2px solid var(--light);
+            color: var(--dark);
+            border-bottom: 2px solid rgba(52, 152, 219, 0.2);
             padding-bottom: 0.5rem;
-            font-size: 1.1rem;
         }
 
-        .btn-download {
+        .btn-primary {
             display: inline-block;
             margin-top: 10px;
-            padding: 8px 15px;
+            padding: 10px 15px;
             background-color: var(--primary);
             color: white;
             text-decoration: none;
-            border-radius: 4px;
-            font-size: 0.9rem;
+            border-radius: 8px;
             text-align: center;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
         }
-
-        .btn-download:hover { background-color: #2980b9; }
-
-        .status-msg { font-style: italic; color: #e67e22; font-size: 0.9rem; margin: 10px 0; }
 
         input {
-            width: 100%; padding: 8px; margin-top: 5px; 
-            border: 1px solid #ccc; border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #7f8c8d; }
-
-        canvas {
-            background: #2c3e50; border-radius: 4px;
-            display: block; margin: 10px auto; max-width: 100%;
+            width: 100%; padding: 10px; margin-top: 8px; 
+            border: 1px solid rgba(0,0,0,0.1); border-radius: 8px;
+            background: rgba(255,255,255,0.8);
         }
 
         #bgCanvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            background: transparent;
-            border-radius: 0;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
         }
 
-        header, .container, footer {
-            position: relative;
-            z-index: 1;
+        #homeworkModal {
+            display:none; position: fixed; z-index: 1000; 
+            left: 0; top: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
         }
     </style>
 </head>
@@ -183,106 +132,176 @@
 
     <header>
         <div class="header-bg"></div>
-        
-        <div class="float-element" style="width: 70px; height: 70px; top: 15%; left: 8%;"></div>
-        <div class="float-element" style="width: 110px; height: 110px; bottom: 10%; right: 12%; animation-delay: 2s;"></div>
-
-        <h1 style="text-shadow: 0 4px 12px rgba(0,0,0,0.5); font-size: 2.2rem;">Mes Cours en Ligne</h1>
-        <p style="text-shadow: 0 2px 6px rgba(0,0,0,0.5); font-size: 1.1rem;">Portail de ressources pour le groupe ASRI-06</p>
+        <h1>Portail ASRI-06</h1>
+        <p>Ressources d'Administration et Sécurité des Réseaux</p>
     </header>
 
     <div class="container">
-        <section class="grid">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <input type="text" id="courseSearch" placeholder="🔍 Rechercher un cours ou un module..." 
+                   style="max-width: 500px; border-radius: 25px; padding: 15px 25px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.3); backdrop-filter: blur(5px);">
+        </div>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <button onclick="toggleModal(true)" class="btn-primary" style="background: var(--dark); padding: 12px 30px; border-radius: 25px;">+ Noter un Devoir</button>
+        </div>
+        <div id="homeworkList" class="grid" style="margin-bottom: 3rem;"></div>
+
+        <section class="grid" id="courseGrid">
             <div class="card">
                 <h3>📖 Communication et Collaboration 📖</h3>
                 <p>Outils de travail en équipe et techniques pro.</p>
-                <a href="https://canva.link/ron9tmmi7vkuu2b" target="_blank" class="btn-download">Consulter</a>
+                <a href="https://canva.link/ron9tmmi7vkuu2b" target="_blank" class="btn-primary">Consulter</a>
             </div>
             <div class="card">
                 <h3>📖 Évaluation des Risques 📖</h3>
                 <p>Méthodologies d'analyse et gestion ISO 27005.</p>
-                <a href="https://canva.link/mvm8vi79nl9hqnx" target="_blank" class="btn-download">Consulter</a>
+                <a href="https://canva.link/mvm8vi79nl9hqnx" target="_blank" class="btn-primary">Consulter</a>
             </div>
             <div class="card">
                 <h3>📖 Réseau WAN 📖</h3>
                 <p>Architecture étendues et protocoles de routage.</p>
-                <a href="https://canva.link/g1h4eh4zjci8az1" target="_blank" class="btn-download">Consulter</a>
+                <a href="https://canva.link/g1h4eh4zjci8az1" target="_blank" class="btn-primary">Consulter</a>
             </div>
             <div class="card">
                 <h3>📖 Windows 📖</h3>
                 <p>Administration Windows Server et Active Directory.</p>
-                <a href="https://canva.link/e4rhcw23e6shqk4" target="_blank" class="btn-download">Consulter</a>
+                <a href="https://canva.link/e4rhcw23e6shqk4" target="_blank" class="btn-primary">Consulter</a>
             </div>
             <div class="card">
                 <h3>📖 Sécurité Réseau 📖</h3>
                 <p>Pare-feu et protection contre les cyberattaques.</p>
                 <p class="status-msg">Pas encore disponible</p>
-                <a href="#" class="btn-download" style="background-color: #bdc3c7; pointer-events: none;">Bientôt</a>
+                <a href="#" class="btn-primary" style="background-color: #bdc3c7; pointer-events: none;">Bientôt</a>
             </div>
             <div class="card">
                 <h3>📖 Linux 2.0 📖</h3>
                 <p>Administration avancée et scripts Bash.</p>
-                <a href="https://canva.link/aa06qzsnaak36ic" target="_blank" class="btn-download">Consulter</a>
-                <a href="https://canva.link/59uyd9js9siouy8" target="_blank" class="btn-download" style="background-color: #95a5a6;">Ancienne commande</a>
+                <a href="https://canva.link/aa06qzsnaak36ic" target="_blank" class="btn-primary">Consulter</a>
+                <a href="https://canva.link/59uyd9js9siouy8" target="_blank" class="btn-primary" style="background-color: #95a5a6; margin-top: 5px;">Ancienne commande</a>
             </div>
             <div class="card">
                 <h3>📖 Évaluation Composants 📖</h3>
                 <p>Analyse de performance matériel et serveurs.</p>
-                <a href="https://canva.link/mvm8vi79nl9hqnx" target="_blank" class="btn-download">Consulter</a>
+                <a href="https://canva.link/mvm8vi79nl9hqnx" target="_blank" class="btn-primary">Consulter</a>
             </div>
             <div class="card">
                 <h3>📖 Anglais 📖</h3>
                 <p>Vocabulaire technique informatique.</p>
-                <a href="https://canva.link/fmimz4ukmmliebs" target="_blank" class="btn-download">Consulter</a>
+                <a href="https://canva.link/fmimz4ukmmliebs" target="_blank" class="btn-primary">Consulter</a>
             </div>
         </section>
 
-        <div style="margin-top: 50px;">
-            <div class="card" style="max-width: 500px; margin: 0 auto;">
+        <div class="grid" style="margin-top: 4rem;">
+            <div class="card">
                 <h3 style="text-align: center;">🔢 Convertisseur de Bases</h3>
-                <div><label>Décimal (10)</label><input type="number" id="b10"></div>
-                <div><label>Binaire (2)</label><input type="text" id="b2"></div>
-                <div><label>Octal (8)</label><input type="text" id="b8"></div>
-                <div><label>Hexadécimal (16)</label><input type="text" id="b16"></div>
-                <p id="err" style="color:red; font-size:0.8rem; height:15px;"></p>
+                <div style="margin-bottom: 10px;">
+                    <label>Décimal (10)</label>
+                    <input type="number" id="b10" placeholder="Ex: 255">
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label>Binaire (2)</label>
+                    <input type="text" id="b2" placeholder="Ex: 11111111">
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label>Octal (8)</label>
+                    <input type="text" id="b8" placeholder="Ex: 377">
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label>Hexadécimal (16)</label>
+                    <input type="text" id="b16" placeholder="Ex: FF">
+                </div>
             </div>
-        </div>
 
-        <div style="margin-top: 50px;">
-            <div class="card" style="max-width: 500px; margin: 0 auto; text-align: center;">
-                <h3>🎮 Mini-jeu : Snake</h3>
-                <canvas id="snakeGame" width="400" height="400"></canvas>
+            <div class="card" style="text-align: center;">
+                <h3>🎮 Pause Snake</h3>
+                <canvas id="snakeGame" width="300" height="300" style="margin: 0 auto;"></canvas>
                 <p>Score : <span id="score">0</span></p>
-                <button onclick="resetS()" style="padding: 10px; cursor:pointer;">Reset</button>
+                <button onclick="resetS()" class="btn-primary" style="background:#95a5a6;">Reset</button>
             </div>
         </div>
     </div>
 
-    <footer>&copy; 2026 - Portail ASRI-06</footer>
+    <div id="homeworkModal">
+        <div class="card" style="max-width: 450px; margin: 8% auto; background: white; padding: 2rem;">
+            <h3 style="color: var(--dark);">📌 Ajouter une tâche</h3>
+            <label>Matière</label>
+            <input type="text" id="hwSubject" placeholder="Ex: Linux">
+            <label>Travail à faire</label>
+            <input type="text" id="hwTask" placeholder="Ex: Script de backup">
+            <label>Date limite</label>
+            <input type="date" id="hwDate">
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button onclick="addHomework()" class="btn-primary" style="flex:1; background: #27ae60;">Ajouter</button>
+                <button onclick="toggleModal(false)" class="btn-primary" style="flex:1; background: #e74c3c;">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 3rem; color: #7f8c8d;">
+        &copy; 2026 - Portail Étudiant ASRI-06
+    </footer>
 
     <script>
-        // CONVERTISSEUR
-        const inps = { 10: document.getElementById('b10'), 2: document.getElementById('b2'), 8: document.getElementById('b8'), 16: document.getElementById('b16') };
-        function conv(val, base) {
-            if(!val) { Object.values(inps).forEach(i=>i.value=""); return; }
-            let d = parseInt(val, base);
-            if(isNaN(d)) return;
-            if(base!=10) inps[10].value = d;
-            if(base!=2) inps[2].value = d.toString(2);
-            if(base!=8) inps[8].value = d.toString(8);
-            if(base!=16) inps[16].value = d.toString(16).toUpperCase();
-        }
-        Object.keys(inps).forEach(b => inps[b].addEventListener('input', (e)=>conv(e.target.value, b)));
+        // --- RECHERCHE ---
+        document.getElementById('courseSearch').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('#courseGrid .card').forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(term) ? "flex" : "none";
+            });
+        });
 
-        // SNAKE GAME
+        // --- GESTION DEVOIRS ---
+        function toggleModal(show) {
+            document.getElementById('homeworkModal').style.display = show ? 'block' : 'none';
+        }
+
+        function addHomework() {
+            const subj = document.getElementById('hwSubject').value;
+            const task = document.getElementById('hwTask').value;
+            const date = document.getElementById('hwDate').value;
+            if(!subj || !date) return alert("Veuillez remplir la matière et la date.");
+
+            const hwCard = document.createElement('div');
+            hwCard.className = 'card';
+            hwCard.innerHTML = `
+                <div>
+                    <h3 style="color: var(--accent);">📅 DEVOIR</h3>
+                    <p><strong>${subj}</strong></p>
+                    <p style="font-size:0.9rem;">${task || 'Révisions'}</p>
+                    <p style="font-size:0.8rem; color:#7f8c8d; margin-top:10px;">Échéance : ${new Date(date).toLocaleDateString('fr-FR')}</p>
+                </div>
+                <button onclick="this.closest('.card').remove()" style="background:none; border:none; color:#e74c3c; cursor:pointer; text-align:right; font-weight:bold;">✕ Supprimer</button>
+            `;
+            document.getElementById('homeworkList').appendChild(hwCard);
+            toggleModal(false);
+            document.getElementById('hwSubject').value = "";
+            document.getElementById('hwTask').value = "";
+            document.getElementById('hwDate').value = "";
+        }
+
+        // --- CONVERTISSEUR ---
+        const inps = { 10: document.getElementById('b10'), 2: document.getElementById('b2'), 8: document.getElementById('b8'), 16: document.getElementById('b16') };
+        function convert(val, fromBase) {
+            if(!val) { Object.values(inps).forEach(i => i.value = ""); return; }
+            const dec = parseInt(val, fromBase);
+            if(isNaN(dec)) return;
+            if(fromBase !== 10) inps[10].value = dec;
+            if(fromBase !== 2)  inps[2].value  = dec.toString(2);
+            if(fromBase !== 8)  inps[8].value  = dec.toString(8);
+            if(fromBase !== 16) inps[16].value = dec.toString(16).toUpperCase();
+        }
+        Object.keys(inps).forEach(b => { inps[b].addEventListener('input', (e) => convert(e.target.value, parseInt(b))); });
+
+        // --- SNAKE GAME ---
         const cvs = document.getElementById("snakeGame"), ctx = cvs.getContext("2d");
-        let box=20, snake, food, d, score, loop, active=false;
+        let box=15, snake, food, d, score, loop, active=false;
         function initS() {
             snake = [{x:9*box, y:10*box}]; score=0; document.getElementById("score").innerText=0;
-            food = {x:Math.floor(Math.random()*19+1)*box, y:Math.floor(Math.random()*19+1)*box};
+            food = {x:Math.floor(Math.random()*19)*box, y:Math.floor(Math.random()*19)*box};
             d=null; active=false;
-            ctx.fillStyle="#2c3e50"; ctx.fillRect(0,0,400,400);
-            ctx.fillStyle="white"; ctx.textAlign="center"; ctx.fillText("Flèches pour jouer", 200, 200);
+            ctx.fillStyle="#2c3e50"; ctx.fillRect(0,0,300,300);
+            ctx.fillStyle="white"; ctx.textAlign="center"; ctx.fillText("Utilisez les flèches", 150, 150);
         }
         function resetS() { clearInterval(loop); initS(); }
         document.addEventListener("keydown", e => {
@@ -296,87 +315,59 @@
             }
         });
         function drawS() {
-            ctx.fillStyle="#2c3e50"; ctx.fillRect(0,0,400,400);
+            ctx.fillStyle="#2c3e50"; ctx.fillRect(0,0,300,300);
             snake.forEach((s,i) => { ctx.fillStyle=(i==0)?"#3498db":"white"; ctx.fillRect(s.x, s.y, box, box); });
             ctx.fillStyle="#e74c3c"; ctx.fillRect(food.x, food.y, box, box);
             let nX = snake[0].x, nY = snake[0].y;
             if(d=="LEFT") nX-=box; if(d=="UP") nY-=box; if(d=="RIGHT") nX+=box; if(d=="DOWN") nY+=box;
             if(nX==food.x && nY==food.y) {
                 score++; document.getElementById("score").innerText=score;
-                food = {x:Math.floor(Math.random()*19+1)*box, y:Math.floor(Math.random()*19+1)*box};
+                food = {x:Math.floor(Math.random()*19)*box, y:Math.floor(Math.random()*19)*box};
             } else { snake.pop(); }
             let head = {x:nX, y:nY};
-            if(nX<0||nX>=400||nY<0||nY>=400||snake.some(s=>s.x==head.x&&s.y==head.y)) {
-                clearInterval(loop); active=false;
-                ctx.fillStyle="white"; ctx.fillText("GAME OVER", 200, 200);
-            } else { snake.unshift(head); }
+            if(nX<0||nX>=300||nY<0||nY>=300||snake.some(s=>s.x==head.x&&s.y==head.y)) { clearInterval(loop); active=false; ctx.fillStyle="white"; ctx.fillText("GAME OVER", 150, 150); }
+            else { snake.unshift(head); }
         }
         initS();
 
-        // ANIMATED BACKGROUND PARTICLES
+        // --- FOND ANIMÉ (CORRECTIONS TAILLE PARTICULES) ---
         (function() {
             const bg = document.getElementById('bgCanvas');
             const bctx = bg.getContext('2d');
             let particles = [];
-            const colors = ['rgba(52,152,219,0.3)', 'rgba(155,89,182,0.2)', 'rgba(46,204,113,0.2)', 'rgba(241,196,15,0.2)'];
-
-            function resizeBg() {
-                bg.width = window.innerWidth;
-                bg.height = window.innerHeight;
+            function resize() { bg.width = window.innerWidth; bg.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+            
+            function createP() { 
+                return { 
+                    x: Math.random() * bg.width, 
+                    y: Math.random() * bg.height, 
+                    r: Math.random() * 10 + 5, // TAILLE : entre 5px et 15px
+                    dx: (Math.random() - 0.5) * 1.5, // Vitesse légèrement augmentée
+                    dy: (Math.random() - 0.5) * 1.5, 
+                    life: Math.random() * 150 // Durée de vie plus longue
+                }; 
             }
-            resizeBg();
-            window.addEventListener('resize', resizeBg);
-
-            function createParticle() {
-                return {
-                    x: Math.random() * bg.width,
-                    y: Math.random() * bg.height,
-                    r: Math.random() * 8 + 4,
-                    dx: (Math.random() - 0.5) * 0.8,
-                    dy: (Math.random() - 0.5) * 0.8,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    life: Math.random() * 200 + 100
-                };
-            }
-
-            for (let i = 0; i < 60; i++) particles.push(createParticle());
-
-            function animateBg() {
-                bctx.clearRect(0, 0, bg.width, bg.height);
-
-                particles.forEach((p, i) => {
-                    p.x += p.dx;
-                    p.y += p.dy;
+            
+            for(let i=0; i<50; i++) particles.push(createP());
+            
+            function anim() {
+                bctx.clearRect(0,0,bg.width,bg.height);
+                particles.forEach((p,i) => {
+                    p.x += p.dx; 
+                    p.y += p.dy; 
                     p.life--;
-
-                    if (p.life <= 0 || p.x < -10 || p.x > bg.width + 10 || p.y < -10 || p.y > bg.height + 10) {
-                        particles[i] = createParticle();
-                    }
-
-                    bctx.beginPath();
-                    bctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    bctx.fillStyle = p.color;
+                    if(p.life <= 0) particles[i] = createP();
+                    
+                    bctx.beginPath(); 
+                    bctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+                    // Opacité réglée à 0.3 pour qu'elles soient bien visibles
+                    bctx.fillStyle = 'rgba(52, 152, 219, 0.3)'; 
                     bctx.fill();
                 });
-
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        let dx = particles[i].x - particles[j].x;
-                        let dy = particles[i].y - particles[j].y;
-                        let dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 120) {
-                            bctx.beginPath();
-                            bctx.strokeStyle = 'rgba(52,152,219,' + (0.1 * (1 - dist / 120)) + ')';
-                            bctx.lineWidth = 0.5;
-                            bctx.moveTo(particles[i].x, particles[i].y);
-                            bctx.lineTo(particles[j].x, particles[j].y);
-                            bctx.stroke();
-                        }
-                    }
-                }
-                requestAnimationFrame(animateBg);
+                requestAnimationFrame(anim);
             }
-            animateBg();
+            anim();
         })();
     </script>
 </body>
