@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Portail de Cours - ASRI-06</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: linear-gradient(-45deg, #e8f0fe, #d1ecf1, #f0e6ff, #e0f7fa);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- HEADER DYNAMIQUE --- */
+        header {
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            clip-path: ellipse(150% 100% at 50% 0%);
+            background: #2c3e50;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(44, 62, 80, 0.4), rgba(44, 62, 80, 0.6)),
+                        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=80') center/cover no-repeat;
+            z-index: 0;
+            animation: kenBurns 20s ease infinite alternate;
+        }
+
+        .float-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: floating 6s ease-in-out infinite;
+        }
+
+        @keyframes kenBurns {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.15) translateY(-15px); }
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
+            50% { transform: translateY(-30px) rotate(15deg); opacity: 0.4; }
+        }
+
+        header > * {
+            position: relative;
+            z-index: 2;
+        }
+        /* ------------------------ */
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            /* Fond blanc très transparent */
+            background: rgba(255, 255, 255, 0.4); 
+            padding: 1.5rem;
+            border-radius: 12px; /* Un peu plus arrondi pour le style verre */
+            
+            /* L'effet de flou qui "capture" les couleurs du fond */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            
+            /* Une bordure légère pour définir la carte sur le fond clair */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover { 
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.6); /* Devient un peu plus opaque au survol */
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.15);
+        }
+.card h3 {
+            margin-top: 0;
+            color: var(--dark); /* Ou var(--primary) */
+            border-bottom: 2px solid rgba(52, 152, 219, 0.2);
+            padding-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .card:hover { transform: translateY(-5px); }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary);
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-download {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .btn-download:hover { background-color: #2980b9; }
+
+        .status-msg { font-style: italic; color: #e67e22; font-size: 0.9rem; margin: 10px 0; }
+
+        input {
+            width: 100%; padding: 8px; margin-top: 5px; 
+            border: 1px solid #ccc; border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #7f8c8d; }
+
+        canvas {
+            background: #2c3e50; border-radius: 4px;
+            display: block; margin: 10px auto; max-width: 100%;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: transparent;
+            border-radius: 0;
+        }
+
+        header, .container, footer {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <header>
+        <div class="header-bg"></div>
+        
+        <div class="float-element" style="width: 70px; height: 70px; top: 15%; left: 8%;"></div>
+        <div class="float-element" style="width: 110px; height: 110px; bottom: 10%; right: 12%; animation-delay: 2s;"></div>
+
+        <h1 style="text-shadow: 0 4px 12px rgba(0,0,0,0.5); font-size: 2.2rem;">Mes Cours en Ligne</h1>
+        <p style="text-shadow: 0 2px 6px rgba(0,0,0,0.5); font-size: 1.1rem;">Portail de ressources pour le groupe ASRI-06</p>
+    </header>
+
+    <div class="container">
+        <section class="grid">
+            <div class="card">
+                <h3>📖 Communication et Collaboration 📖</h3>
+                <p>Outils de travail en équipe et techniques pro.</p>
+                <a href="https://canva.link/ron9tmmi7vkuu2b" target="_blank" class="btn-download">Consulter</a>
+            </div>
+            <div class="card">
+                <h3>📖 Évaluation des Risques 📖</h3>
+                <p>Méthodologies d'analyse et gestion ISO 27005.</p>
+                <a href="https://canva.link/mvm8vi79nl9hqnx" target="_blank" class="btn-download">Consulter</a>
+            </div>
+            <div class="card">
+                <h3>📖 Réseau WAN 📖</h3>
+                <p>Architecture étendues et protocoles de routage.</p>
+                <a href="https://canva.link/g1h4eh4zjci8az1" target="_blank" class="btn-download">Consulter</a>
+            </div>
+            <div class="card">
+                <h3>📖 Windows 📖</h3>
+                <p>Administration Windows Server et Active Directory.</p>
+                <a href="https://canva.link/e4rhcw23e6shqk4" target="_blank" class="btn-download">Consulter</a>
+            </div>
+            <div class="card">
+                <h3>📖 Sécurité Réseau 📖</h3>
+                <p>Pare-feu et protection contre les cyberattaques.</p>
+                <p class="status-msg">Pas encore disponible</p>
+                <a href="#" class="btn-download" style="background-color: #bdc3c7; pointer-events: none;">Bientôt</a>
+            </div>
+            <div class="card">
+                <h3>📖 Linux 2.0 📖</h3>
+                <p>Administration avancée et scripts Bash.</p>
+                <a href="https://canva.link/aa06qzsnaak36ic" target="_blank" class="btn-download">Consulter</a>
+                <a href="https://canva.link/59uyd9js9siouy8" target="_blank" class="btn-download" style="background-color: #95a5a6;">Ancienne commande</a>
+            </div>
+            <div class="card">
+                <h3>📖 Évaluation Composants 📖</h3>
+                <p>Analyse de performance matériel et serveurs.</p>
+                <a href="https://canva.link/mvm8vi79nl9hqnx" target="_blank" class="btn-download">Consulter</a>
+            </div>
+            <div class="card">
+                <h3>📖 Anglais 📖</h3>
+                <p>Vocabulaire technique informatique.</p>
+                <a href="https://canva.link/fmimz4ukmmliebs" target="_blank" class="btn-download">Consulter</a>
+            </div>
+        </section>
+
+        <div style="margin-top: 50px;">
+            <div class="card" style="max-width: 500px; margin: 0 auto;">
+                <h3 style="text-align: center;">🔢 Convertisseur de Bases</h3>
+                <div><label>Décimal (10)</label><input type="number" id="b10"></div>
+                <div><label>Binaire (2)</label><input type="text" id="b2"></div>
+                <div><label>Octal (8)</label><input type="text" id="b8"></div>
+                <div><label>Hexadécimal (16)</label><input type="text" id="b16"></div>
+                <p id="err" style="color:red; font-size:0.8rem; height:15px;"></p>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px;">
+            <div class="card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+                <h3>🎮 Mini-jeu : Snake</h3>
+                <canvas id="snakeGame" width="400" height="400"></canvas>
+                <p>Score : <span id="score">0</span></p>
+                <button onclick="resetS()" style="padding: 10px; cursor:pointer;">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 - Portail ASRI-06</footer>
+
+    <script>
+        // CONVERTISSEUR
+        const inps = { 10: document.getElementById('b10'), 2: document.getElementById('b2'), 8: document.getElementById('b8'), 16: document.getElementById('b16') };
+        function conv(val, base) {
+            if(!val) { Object.values(inps).forEach(i=>i.value=""); return; }
+            let d = parseInt(val, base);
+            if(isNaN(d)) return;
+            if(base!=10) inps[10].value = d;
+            if(base!=2) inps[2].value = d.toString(2);
+            if(base!=8) inps[8].value = d.toString(8);
+            if(base!=16) inps[16].value = d.toString(16).toUpperCase();
+        }
+        Object.keys(inps).forEach(b => inps[b].addEventListener('input', (e)=>conv(e.target.value, b)));
+
+        // SNAKE GAME
+        const cvs = document.getElementById("snakeGame"), ctx = cvs.getContext("2d");
+        let box=20, snake, food, d, score, loop, active=false;
+        function initS() {
+            snake = [{x:9*box, y:10*box}]; score=0; document.getElementById("score").innerText=0;
+            food = {x:Math.floor(Math.random()*19+1)*box, y:Math.floor(Math.random()*19+1)*box};
+            d=null; active=false;
+            ctx.fillStyle="#2c3e50"; ctx.fillRect(0,0,400,400);
+            ctx.fillStyle="white"; ctx.textAlign="center"; ctx.fillText("Flèches pour jouer", 200, 200);
+        }
+        function resetS() { clearInterval(loop); initS(); }
+        document.addEventListener("keydown", e => {
+            if([37,38,39,40].includes(e.keyCode)) {
+                e.preventDefault();
+                if(!active) { active=true; loop=setInterval(drawS, 100); }
+                if(e.keyCode==37 && d!="RIGHT") d="LEFT";
+                if(e.keyCode==38 && d!="DOWN") d="UP";
+                if(e.keyCode==39 && d!="LEFT") d="RIGHT";
+                if(e.keyCode==40 && d!="UP") d="DOWN";
+            }
+        });
+        function drawS() {
+            ctx.fillStyle="#2c3e50"; ctx.fillRect(0,0,400,400);
+            snake.forEach((s,i) => { ctx.fillStyle=(i==0)?"#3498db":"white"; ctx.fillRect(s.x, s.y, box, box); });
+            ctx.fillStyle="#e74c3c"; ctx.fillRect(food.x, food.y, box, box);
+            let nX = snake[0].x, nY = snake[0].y;
+            if(d=="LEFT") nX-=box; if(d=="UP") nY-=box; if(d=="RIGHT") nX+=box; if(d=="DOWN") nY+=box;
+            if(nX==food.x && nY==food.y) {
+                score++; document.getElementById("score").innerText=score;
+                food = {x:Math.floor(Math.random()*19+1)*box, y:Math.floor(Math.random()*19+1)*box};
+            } else { snake.pop(); }
+            let head = {x:nX, y:nY};
+            if(nX<0||nX>=400||nY<0||nY>=400||snake.some(s=>s.x==head.x&&s.y==head.y)) {
+                clearInterval(loop); active=false;
+                ctx.fillStyle="white"; ctx.fillText("GAME OVER", 200, 200);
+            } else { snake.unshift(head); }
+        }
+        initS();
+
+        // ANIMATED BACKGROUND PARTICLES
+        (function() {
+            const bg = document.getElementById('bgCanvas');
+            const bctx = bg.getContext('2d');
+            let particles = [];
+            const colors = ['rgba(52,152,219,0.3)', 'rgba(155,89,182,0.2)', 'rgba(46,204,113,0.2)', 'rgba(241,196,15,0.2)'];
+
+            function resizeBg() {
+                bg.width = window.innerWidth;
+                bg.height = window.innerHeight;
+            }
+            resizeBg();
+            window.addEventListener('resize', resizeBg);
+
+            function createParticle() {
+                return {
+                    x: Math.random() * bg.width,
+                    y: Math.random() * bg.height,
+                    r: Math.random() * 8 + 4,
+                    dx: (Math.random() - 0.5) * 0.8,
+                    dy: (Math.random() - 0.5) * 0.8,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    life: Math.random() * 200 + 100
+                };
+            }
+
+            for (let i = 0; i < 60; i++) particles.push(createParticle());
+
+            function animateBg() {
+                bctx.clearRect(0, 0, bg.width, bg.height);
+
+                particles.forEach((p, i) => {
+                    p.x += p.dx;
+                    p.y += p.dy;
+                    p.life--;
+
+                    if (p.life <= 0 || p.x < -10 || p.x > bg.width + 10 || p.y < -10 || p.y > bg.height + 10) {
+                        particles[i] = createParticle();
+                    }
+
+                    bctx.beginPath();
+                    bctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    bctx.fillStyle = p.color;
+                    bctx.fill();
+                });
+
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        let dx = particles[i].x - particles[j].x;
+                        let dy = particles[i].y - particles[j].y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            bctx.beginPath();
+                            bctx.strokeStyle = 'rgba(52,152,219,' + (0.1 * (1 - dist / 120)) + ')';
+                            bctx.lineWidth = 0.5;
+                            bctx.moveTo(particles[i].x, particles[i].y);
+                            bctx.lineTo(particles[j].x, particles[j].y);
+                            bctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animateBg);
+            }
+            animateBg();
+        })();
+    </script>
+</body>
+</html>
